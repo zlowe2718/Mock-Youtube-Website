@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+	<div class="content-block">
+		<div class="align-items">
+			<div class="video-player-block">
+				<div class="video-player">
+					<video id="video" width="1280" height="720" controls>
+						<source src="{{ video.file.url }}" type="video/mp4">
+					</video>
+				</div>		
+				<div class="video-details">
+					<h3 class="video-details">{{ video.title }}</h3>
+					<div class="views">
+						Views: <span class="view-counter">{{ video.views }}</span>
+					</div>
+					<div class="date-uploaded">
+						{{ video.date_uploaded }}
+					</div>
+					<div class="like-details">
+						<a name="{{ video.id }}" class="likein"><img src="{% static 'icons/youtube-like-button-png-11.png' %}" class="like-img" width="20" height="20"></a> <span id="like-counter">{{ video_likes }}</span>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="comment-block">
+			{% for comment in video.comment_set.all %}
+				<div class="comment">
+					<img src="{{ comment.user.profile.profile_pic.url }}" width="50" height="50">
+					<div class="comment-details">
+						<a href = "{{ comment.user.profile.get_absolute_url }}"><h6>{{ comment.user }}</h6></a>
+						<p>{{ comment }}</p>
+						<div class = "like-details">
+							<!--Add anchor tag to like counter and increment likes when clicked via ajax -->
+							<div class="like-data">Likes: {{comment.likes.count}}  Dislikes: {{comment.dislikes.count}} </div>	
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+				<div class="comment">
+					<img src="{{ user.profile.profile_pic.url }}" width="50" height="50">
+					<div class="comment-details">
+						<a href = "{{ user.profile.get_absolute_url }}"><h6>{{ user }}</h6></a>
+						<form action="" method="post">
+						{% csrf_token %}
+							<input id="textbody" name="text" type="text" placeholder="Add a comment!" required>
+							<input id= "send-comment" type="submit" value="Comment">
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

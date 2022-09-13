@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+	<h1>Popular Videos Right Now</h1>
+	<div class="video-popular-list">
+	{% for video in video.all%}
+		<div class="video-block">
+			<div class="video">
+				<a href="{{ video.get_absolute_url }}">
+					<video width="320" height="240" controls>
+						<source src="{{ video.file.url }}" type="video/mp4">
+					</video>
+				</a>
+			</div>
+			<div class="metadata-block">
+				<img src="{{video.user.profile.profile_pic.url}}" width="50" height="50">
+				<div class="metadata-wrapper">	
+					<div class="title">
+						{{ video.title }}
+					</div>
+					<div class="profile">
+						{{ video.user.username }}
+					</div>
+					<div class="metadata">
+						<div class="views">
+							Views: {{video.views}}
+						</div>
+						<div class="comments">
+							Comments: {{video.num_of_comments}}
+						</div>
+						<div class="likes">
+							Likes: {{video.likes.count}}
+						</div>
+					</div>
+				</div>
+			</div>
+				
+		</div>
+	{% endfor %}
+	</div>
+
+	
+{% endblock %}
